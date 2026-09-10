@@ -1,4 +1,4 @@
-# acid_raga.rb
+# chanrajit.rb
 #
 # An acid raga, in the spirit of Charanjit Singh's "Ten Ragas to a
 # Disco Beat" (1982): TB-303 bassline, 808-ish drums, four on the
