@@ -1,34 +1,33 @@
-notes_1 = (ring :e3, :g3, :a3, :b3, :d4)
-notes_2 = (ring :e2, :e3, :g3, :a3, :b3, :e4, :d4)
+# pentatonic.rb
+#
+# The whole point: every note in a pentatonic scale sounds fine
+# against every other one. Pick at random, it still works.
 
-live_loop :my_melody do
-  use_synth :beep
-  play notes_1[tick]
-  sleep 0.5
-end
+use_bpm 96
+##| kick_pat  = (bools 1,1,1,1, 1,1,1,1)
+kick_pat  = (bools 1,0,0,1, 0,0,1,0)
+snare_pat = (bools 0,0,1,0, 0,0,1,0)
+hat_pat   = (bools 1,0,1,1, 1,0,1,1)
 
-live_loop :my_melody_faster do
-  use_synth :pluck
-  with_swing offset: 2, shift: 1 do
-    play notes_1.choose, amp:0.8
-  end
+live_loop :drums do
+  tick
+  ##| cue :beat
+  sample :bd_haus,            amp: 3               if kick_pat.look
+  sample :sn_dolf,            amp: 1.5             if snare_pat.look
+  sample :hat_gnu, amp: 3.0, rate: 1.2  if hat_pat.look
   sleep 0.25
-  
 end
 
-
-##| live_loop :kick_snare do
-
-##|   with_swing pulse: 8, offset: 1, shift: 1.0 / 4 do
-
-##|     if (ring :kick, :snare).tick == :kick
-##|       sample :bd_haus
-##|     else
-##|       sample :sn_dolf
-##|     end
-
-##|   end
-
-##| sleep 0.5
-
+##| live_loop :melody do
+##|   ##| sync :beat
+##|   use_synth :pluck
+##|   play scale(:e4, :minor_pentatonic).choose, release: 0.4, amp: 0.9
+##|   sleep 0.125
 ##| end
+
+##| live_loop :bass do
+##|   use_synth :fm
+##|   sync :beat
+##|   play scale(:e2, :minor_pentatonic).choose, release: 0.6, amp: 1.5
+##|   sleep 0.5
+##|   end
